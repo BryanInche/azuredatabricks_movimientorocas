@@ -6,3 +6,7 @@ import matplotlib.pyplot as plt # Libreria para realizar graficos
 # COMMAND ----------
 
 #jupyter notebook
+a=2
+b=2
+c=a+4 - b
+c
