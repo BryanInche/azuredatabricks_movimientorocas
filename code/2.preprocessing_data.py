@@ -79,7 +79,7 @@ tipos_de_datos = {
     'id_zona_encuentra_descarga': 'int64','id_nodo_carga': 'float64','id_nodo_descarga': 'int64',
     'elevacion_descarga': 'int64','nivel_elevacion_locacion_mts': 'float64','radio_locacion': 'float64','id_material': 'float64',
     'elevacion_poligono_mts': 'float64','densidad_poligono': 'float64','tonelaje_inicial_poligono': 'float64','id_pases': 'float64',
-    'id_palas_pases': 'float64','angulo_giro_promedio_pases': 'float64','has_block_pases': 'bool'}
+    'id_palas_pases': 'float64','angulo_giro_promedio_pases': 'float64','has_block_pases': 'bool','capacidad_pes_equipo_carguio': 'float64', 'capacidad_vol_equipo_carguio': 'float64' }
 
 # 7.2 Convertir las columnas al tipo de dato correspondiente
 for columna, tipo in tipos_de_datos.items():
@@ -188,10 +188,10 @@ nuevos_nombres = {'id_cargadescarga' : 'id_cargadescarga_ciclo',
     'nombre_carga_locacion':'nombre_locacion_carga', 'nivel_elevacion_locacion_mts':'nivel_elevacion_locacion_carga_metros', 'radio_locacion':'radio_locacion_metros',
     'ids_poligonos_en_locacion':'ids_poligonos_en_locacion_carga', 'id_material': 'id_material_dominante_en_poligono', 
     'elevacion_poligono_mts':'elevacion_poligono_metros', 'ley_in':'lista_leyes', 'densidad_poligono':'densidad_inicial_poligono_creado_tn/m3',
-    'capacidad_vol' : 'capacidad_en_volumen_equipo_carguio_m3', 'capacidad_pes':'capacidad_en_peso_equipo_carguio', 'capacidadtanque': 'capacidadtanque_equipocarguio_galones',
-    'radiohexagonocuchara' : 'radiohexagonocuchara_equipocarguio', 'id_tablegen' : 'id_guardia_acarreocarga', 'nombre_tablegen' : 'nombre_guardia_acarreocarga', 
+    'capacidad_vol_equipo_carguio' : 'capacidad_en_volumen_equipo_carguio_m3', 'capacidad_pes_equipo_carguio':'capacidad_en_peso_equipo_carguio', 'capacidadtanque_equipo_carguio': 'capacidadtanque_equipocarguio_galones',
+    'radiohexagonocuchara_equipo_carguio' : 'radiohexagonocuchara_equipocarguio', 'id_tablegen' : 'id_guardia_acarreocarga', 'nombre_tablegen' : 'nombre_guardia_acarreocarga', 
     'id_guardiadescarga': 'id_guardia_acarreodescarga', 'nombre_guardiadescarga':'nombre_guardia_acarreodescarga',
-    'id':'id_guardia_carguio', 'nombre': 'nombre_guardia_carguio', 'id_locacion' : 'id_locacion_hace_carga','tonelaje_inicial_poligono': 'tonelaje_inicial_poligono_creado',  'efhvacio':'efhvacio_mts', 'efhcargado':'efhcargado_mts', 
+    'id':'id_guardia_carguio', 'nombre': 'nombre_guardia_carguio', 'id_locacion' : 'id_locacion_hace_carga','tonelaje_inicial_poligono': 'tonelaje_inicial_poligono_creado',  'efhvacio':'efhvacio_mts', 'efhcargado':'efhcargado_mts'
 }
 # Renombra las columnas del DataFrame
 datos = datos.rename(columns=nuevos_nombres)

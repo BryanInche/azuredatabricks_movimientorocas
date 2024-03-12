@@ -4,11 +4,11 @@ df_delta = spark.read.format("delta").load("/mnt/datalakemlopsd4m/processed/datm
 datos = df_delta.toPandas()
 
 # 2. Seleccionamos las variables que son mas relevantes para la construccion del modelo de ML
-nuevos_nombres = {'radiohexagonocuchara_equipo_carguio' : 'radiohexagonocuchara_equipocarguio',
-    'capacidad_vol_equipo_carguio':'capacidad_en_volumen_equipo_carguio_m3', 'capacidad_pes_equipo_carguio':'capacidad_en_peso_equipo_carguio'}
+#nuevos_nombres = {'radiohexagonocuchara_equipo_carguio' : 'radiohexagonocuchara_equipocarguio',
+#    'capacidad_vol_equipo_carguio':'capacidad_en_volumen_equipo_carguio_m3', 'capacidad_pes_equipo_carguio':'capacidad_en_peso_equipo_carguio'}
 
 # 2.1 Renombra las columnas del DataFrame
-datos = datos.rename(columns=nuevos_nombres)
+#datos = datos.rename(columns=nuevos_nombres)
 # 2.2 Filtro de variables relevantes
 datos = datos[['tonelaje_inicial_poligono_creado','radiohexagonocuchara_equipocarguio','capacidad_en_volumen_equipo_carguio_m3','capacidad_en_peso_equipo_carguio',
 'capacidad_en_peso_equipo_acarreo','tiempo_estimado_duracion_estado_pala','radio_locacion_metros','tiempo_ready_llegada_esperando','tiempo_ready_esperando_cuadra',
@@ -30,5 +30,3 @@ spark_datos = spark.createDataFrame(datos)
 
 # n.1 Guardamos los datos preprocesados en el Storage de Processed , en una Tabla DELTA
 spark_datos.write.format("delta").mode("overwrite").saveAsTable("processed_db.datmarcobre_featureengineer_delta") #processed_db:Nombre de BD y datos_processed_delta:Nombre
-
-
