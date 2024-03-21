@@ -242,6 +242,9 @@ Limite_superior = round(Q3 + 1.5 * IQR)
 # Limitar los valores atípicos a los límites del bigote en la columna
 datos['numero_pases_carguio'] = datos['numero_pases_carguio'].clip(lower=Limite_inferior, upper=Limite_superior)
 
+# n.1 Crear la base de datos si no existe en el almacenamiento de processed
+#spark.sql("CREATE DATABASE IF NOT EXISTS processed_db LOCATION '/mnt/datalakemlopsd4m/processed/'")
+
 # n Antes de Guardar convertir el df-pandas Preprocesado a un DataFrame de Spark
 spark_datos = spark.createDataFrame(datos)
 

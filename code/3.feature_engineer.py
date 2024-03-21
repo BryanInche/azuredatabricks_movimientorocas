@@ -25,8 +25,11 @@ datos['tonelaje_inicial_poligono_creado'] = datos['tonelaje_inicial_poligono_cre
 #- Convertimos de float a int64 la variable id_equipo_carguio
 datos['id_equipo_carguio'] = datos['id_equipo_carguio'].round(0).astype('int64')
 
-# n Antes de Guardar convertir el df-pandas Preprocesado a un DataFrame de Spark
+# n.1 Crear la base de datos si no existe en el almacenamiento de PRESENTATION
+#spark.sql("CREATE DATABASE IF NOT EXISTS presentation_db LOCATION '/mnt/datalakemlopsd4m/presentation/'")
+
+# n.1 Antes de Guardar convertir el df-pandas Preprocesado a un DataFrame de Spark
 spark_datos = spark.createDataFrame(datos)
 
 # n.1 Guardamos los datos preprocesados en el Storage de Processed , en una Tabla DELTA
-spark_datos.write.format("delta").mode("overwrite").saveAsTable("processed_db.datmarcobre_featureengineer_delta") #processed_db:Nombre de BD y datos_processed_delta:Nombre
+spark_datos.write.format("delta").mode("overwrite").saveAsTable("presentation_db.datmarcobre_fengineer_tablacaract_delta") #processed_db:Nombre de BD y datos_processed_delta:Nombre

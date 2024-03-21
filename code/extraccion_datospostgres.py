@@ -140,7 +140,7 @@ LEFT JOIN tp_palas tp ON tp.id = (SELECT id
 						 	ORDER BY ID DESC LIMIT 1)
 WHERE tcd1.tiem_elimin IS NULL
 AND tcd1.tiem_viajando IS NOT NULL
-and tp.tiem_elimin IS NULL and tcd1.tiem_carga > CAST('2022-01-01' AS DATE)) m
+and tp.tiem_elimin IS NULL and tcd1.tiem_carga > CAST('2022-01-01' AS DATE)) m   --MODIFICAR FECHAS
 on a.id_palas = m.id_palas
 left join public.ts_locacion n
 on m.id_locacion = n.id
@@ -203,7 +203,7 @@ left join (select * from public.ta_guardias) x
 on a.id_crewdescarga = x.id
 left join (select * from public.ta_guardias) y
 on m.id_crew = y.id
-where a.tiem_elimin is null and a.tiem_llegada > CAST('2022-01-01' AS DATE) and b.factor is not null ) z --and g.id_turnos= 1 and h.id_turnos = 1
+where a.tiem_elimin is null and a.tiem_llegada > CAST('2022-01-01' AS DATE) and b.factor is not null ) z --and g.id_turnos= 1 and h.id_turnos = 1 MODIFICAR FECHAS
 where z.RowNum = 1
         '''
         # Ejecutar la consulta
