@@ -1,5 +1,29 @@
 import pandas as pd
 import numpy as np
+
+# a.Montar un servicio de datalake (podrias realizarlo primero en un jupyter notebook por separado)
+
+#a.1 Get client_id, tenant_id and client_secret from key vault
+# client_id = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-client-id')
+# tenant_id = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-tenant-id')
+# client_secret = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-client-secret')
+
+#a.2 #Set Spark Config with App/ Client Id, Directory/ Tenant Id & Secret
+# configs = {"fs.azure.account.auth.type": "OAuth",
+#           "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
+#           "fs.azure.account.oauth2.client.id": client_id,
+#           "fs.azure.account.oauth2.client.secret": client_secret,
+#           "fs.azure.account.oauth2.client.endpoint": f"https://login.microsoftonline.com/{tenant_id}/oauth2/token"}
+
+#a.3 Call file system utlity mount to mount the storage
+# dbutils.fs.mount(
+#  source = "abfss://presentation@datalakemlopsd4m.dfs.core.windows.net/",
+#  mount_point = "/mnt/datalakemlopsd4m/presentation/",
+#  extra_configs = configs)
+
+#a.4 Verificar que contenedores estan montados en el azure datalake
+#%fs mounts
+
 # 1.Se Lee el archivo CSV del Microsoft DataStorage(RAW) en un DataFrame de Spark
 ruta_carpeta_csv = "/mnt/datalakemlopsd4m/raw/marcobre/datosraw/datostotalmarcobre.csv"
 df_spark = spark.read.option("header", "true").csv(ruta_carpeta_csv)
