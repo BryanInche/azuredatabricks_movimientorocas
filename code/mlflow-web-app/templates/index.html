@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MLflow Model Web App</title>
+    <title>Predicción</title>
 </head>
 <body>
-    <h1>MLflow Model Web App</h1>
-    <form action="/" method="post">
-        <label for="input1">Input 1:</label>
-        <input type="text" id="input1" name="input1"><br><br>
-        <label for="input2">Input 2:</label>
-        <input type="text" id="input2" name="input2"><br><br>
-        <label for="input3">Input 3:</label>
-        <input type="text" id="input3" name="input3"><br><br>
-        <label for="input4">Input 4:</label>
-        <input type="text" id="input4" name="input4"><br><br>
-        <label for="input5">Input 5:</label>
-        <input type="text" id="input5" name="input5"><br><br>
-        <input type="submit" value="Submit">
+    <h1>Ingrese los valores de las variables:</h1>
+    <form action="/predict" method="post">
+        <label for="var1">Variable 1:</label>
+        <input type="number" id="var1" name="var1" required><br><br>
+        <label for="var2">Variable 2:</label>
+        <input type="number" id="var2" name="var2" required><br><br>
+        <label for="var3">Variable 3:</label>
+        <input type="number" id="var3" name="var3" required><br><br>
+        <label for="var4">Variable 4:</label>
+        <input type="number" id="var4" name="var4" required><br><br>
+        <label for="var5">Variable 5:</label>
+        <input type="number" id="var5" name="var5" required><br><br>
+        <input type="submit" value="Predecir">
     </form>
 </body>
 </html>
+

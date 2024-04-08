@@ -5,7 +5,7 @@ import json
 
 # 1. Definir los parametros para la creacion del ENDPOINT (necesario cambiar cada vez que se ejecute esta tarea)
 endpoint_name = "mlops_keras_endpoint_oflima"  #nombre que le daras al endpoint
-model_name = "MLops_kerastf_bryaninche"        #nombre del modelo alojado en MLFLOW Registry
+model_name = "MLops_kerastf_oflima_v1"        #nombre del modelo alojado en MLFLOW Registry
 
 #ELEGIR UNA VERSION EN ESPECIFICO
 #specific_model_version = 1  # Especifica la versión deseada del modelo
@@ -14,9 +14,9 @@ model_name = "MLops_kerastf_bryaninche"        #nombre del modelo alojado en MLF
 
 #ELEGIR LA ULTIMA VERSION DISPONIBLE
 model_version = MlflowClient().get_registered_model(model_name).latest_versions[0].version 
-workload_type = "GPU_LARGE"  #tipo de carga de trabajo que se ejecutará en el endpoint de producción. Puede ser CPU, GPU_SMALL, GPU_LARGE
+workload_type = "CPU"  #tipo de carga de trabajo que se ejecutará en el endpoint de producción. Puede ser CPU, GPU_SMALL, GPU_LARGE
 workload_size = "Small"  # indica el tamaño del recurso de cómputo que se asignará al endpoint de producción. Puede ser Small, Medium, Large
-scale_to_zero = False  # Si se establece en True, el sistema puede apagar automáticamente el endpoint cuando no esté recibiendo solicitudes
+scale_to_zero = True  # Si se establece en True, el sistema puede apagar automáticamente el endpoint cuando no esté recibiendo solicitudes
 
 
 #2. Obtener la URL de la API que se utilizará para interactuar con el servicio de MLflow

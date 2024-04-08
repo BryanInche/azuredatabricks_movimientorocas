@@ -1,46 +1,63 @@
-from flask import Flask, render_template, request, jsonify
+from fastapi import FastAPI, Form, HTTPException
+from fastapi.responses import HTMLResponse
 import requests
-import numpy as np
-import json
 
-app = Flask(__name__)
+app = FastAPI()
 
-# Definir la URL y el nombre del endpoint de MLflow
-API_ROOT = "https://adb-6335500359056740.0.azuredatabricks.net"
-endpoint_name = "mlops_kerasv1_endpoint"
+# Endpoint del modelo en MLflow
+MLFLOW_ENDPOINT = "https://adb-6335500359056740.0.azuredatabricks.net/serving-endpoints/mlops_keras_3_22_24_endpoint/invocations"
 
-# Token de autorización necesario para autenticar las solicitudes a la API
-API_TOKEN = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().get() # Asegúrate de reemplazarlo con tu token de autenticación real
+@app.post("/predict/")
+async def predict(var1: float = Form(...), var2: float = Form(...), var3: float = Form(...), var4: float = Form(...), var5: float = Form(...)):
+    """
+    Realiza una predicción utilizando el modelo alojado en MLflow.
+    
+    Parámetros:
+    - var1, var2, var3, var4, var5: Valores de las variables para la predicción.
+    
+    Retorna:
+    - JSON con la predicción.
+    """
+    # Enviar los datos al endpoint de MLflow para inferir
+    input_data = {"inputs": [[var1, var2, var3, var4, var5]]}
+    response = requests.post(MLFLOW_ENDPOINT, json=input_data)
+    
+    # Verificar el código de estado de la respuesta
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code, detail="Error al realizar la predicción")
 
-#GET para solicitar recursos del servidor,   POST se utilizan para enviar datos al servidor y hacer la prediccion
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        # Obtener datos de entrada del formulario web
-        input_data = np.array([[int(request.form['input1']), int(request.form['input2']), int(request.form['input3']), int(request.form['input4']), int(request.form['input5'])]])
-        
-        # Remodelar los datos de entrada para que tengan la forma (None, 1, 5)
-        input_data_reshaped = np.reshape(input_data, (input_data.shape[0], 1, input_data.shape[1]))
-        
-        # Convertir los datos de entrada a una lista de Python para serializarlos a JSON
-        input_data_list = input_data_reshaped.tolist()
+    # Obtener la predicción del modelo
+    prediction = response.json().get('prediction')
+    if prediction is None:
+        raise HTTPException(status_code=500, detail="No se pudo obtener la predicción del modelo")
 
-        data = {
-          "inputs" : input_data_list,
-          "params" : {"max_new_tokens": 100, "temperature": 1}
-        }
+    return {"prediction": prediction}
 
-        headers = {"Content-Type": "application/json", "Authorization": f"Bearer {API_TOKEN}"}
-
-        # Enviar la solicitud POST al endpoint de servicio
-        response = requests.post(
-            url=f"{API_ROOT}/serving-endpoints/{endpoint_name}/invocations", json=data, headers=headers
-        )
-
-        # Mostrar los resultados devueltos por el modelo en la interfaz web
-        return render_template('result.html', result=response.json())
-    else:
-        return render_template('index.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.get("/", response_class=HTMLResponse)
+async def index():
+    """
+    Página de inicio con el formulario para enviar las variables de entrada.
+    """
+    return """
+    <html>
+        <head>
+            <title>Predicción con modelo MLflow</title>
+        </head>
+        <body>
+            <h1>Ingrese los valores de las variables para obtener una predicción</h1>
+            <form method="post">
+                <label for="var1">Variable 1:</label>
+                <input type="number" name="var1"><br>
+                <label for="var2">Variable 2:</label>
+                <input type="number" name="var2"><br>
+                <label for="var3">Variable 3:</label>
+                <input type="number" name="var3"><br>
+                <label for="var4">Variable 4:</label>
+                <input type="number" name="var4"><br>
+                <label for="var5">Variable 5:</label>
+                <input type="number" name="var5"><br>
+                <button type="submit">Predecir</button>
+            </form>
+        </body>
+    </html>
+    """
