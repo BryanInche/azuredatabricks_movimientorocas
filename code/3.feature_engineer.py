@@ -1,6 +1,6 @@
 import pandas as pd
 #1. Leemos los datos de PROCEESED la tabla Delta 
-df_delta = spark.read.format("delta").load("/mnt/datalakemlopsd4m/processed/datmarcobre_prepro2_delta")
+df_delta = spark.read.format("delta").load("/mnt/datalakemlopsd4m/processed/proyectopases_processed/datos_preprocessed_tabladelta_2024_04_08")
 datos = df_delta.toPandas()
 
 # 2. Seleccionamos las variables que son mas relevantes para la construccion del modelo de ML
@@ -26,10 +26,10 @@ datos['tonelaje_inicial_poligono_creado'] = datos['tonelaje_inicial_poligono_cre
 datos['id_equipo_carguio'] = datos['id_equipo_carguio'].round(0).astype('int64')
 
 # n.1 Crear la base de datos si no existe en el almacenamiento de PRESENTATION
-#spark.sql("CREATE DATABASE IF NOT EXISTS presentation_db LOCATION '/mnt/datalakemlopsd4m/presentation/'")
+#spark.sql("CREATE DATABASE IF NOT EXISTS proyectopases_presentation LOCATION '/mnt/datalakemlopsd4m/presentation/proyectopases_presentation/'")
 
 # n.1 Antes de Guardar convertir el df-pandas Preprocesado a un DataFrame de Spark
 spark_datos = spark.createDataFrame(datos)
 
 # n.1 Guardamos los datos preprocesados en el Storage de Processed , en una Tabla DELTA
-spark_datos.write.format("delta").mode("overwrite").saveAsTable("presentation_db.datmarcobre_fengineer_tablacaract_delta") #processed_db:Nombre de BD y datos_processed_delta:Nombre
+spark_datos.write.format("delta").mode("overwrite").saveAsTable("proyectopases_presentation.datos_presentation_tabladelta_2024_04_08") #processed_db:Nombre de BD # y datos_processed_delta:Nombre

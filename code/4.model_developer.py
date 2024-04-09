@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import os
 
 # 1. Cargar los datos para desarrollar y entrenar el modelo de machine learning
-df_delta = spark.read.format("delta").load("/mnt/datalakemlopsd4m/presentation/datmarcobre_fengineer_tablacaract_delta")
+df_delta = spark.read.format("delta").load("/mnt/datalakemlopsd4m/presentation/proyectopases_presentation/datos_presentation_tabladelta_2024_04_08")
 datos = df_delta.toPandas()
 
 # 2. Opcional(Establecer la URI de seguimiento de MLflow si es necesario)
@@ -35,14 +35,14 @@ tf.random.set_seed(42)
 X_train_rnn, X_test_rnn, y_train_rnn, y_test_rnn = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # 4. Establecer el nombre del experimento en la ruta deseada (en caso de script de python)
-experiment_name = "/Users/bryan.inche@ms4m.com/ExperimentosMlFlow"   #Nombre del experimento que se creo en el workspace de Users
+experiment_name = "/Users/bryan.inche@ms4m.com/proyectopases_experimentosMlFlow"   #Nombre del experimento que se creo en el workspace de Users
 mlflow.set_experiment(experiment_name)                         #se crea el experimento
 #mlflow.set_experiment("Default")
 
 mlflow.tensorflow.autolog()  # Keras y TensorFlow
 
 # 5.Entrenar el modelo
-with mlflow.start_run(run_name='experimento_mlflow_pases'):  #Ingresar el nombre de un nuevo experimento de MlFlow dentro del experimento set_experiment
+with mlflow.start_run(run_name='experimento_mlflow_1'):  #Ingresar el nombre de un nuevo experimento de MlFlow dentro del experimento set_experiment
     model_rnn = Sequential()
     model_rnn.add(LSTM(30, activation='relu', input_shape=(1, 5)))
     model_rnn.add(Dense(60, activation='relu'))
@@ -89,5 +89,5 @@ with mlflow.start_run(run_name='experimento_mlflow_pases'):  #Ingresar el nombre
     plt.xlabel('Épocas')
     plt.ylabel('Pérdida')
     plt.legend()
-    plt.savefig("kerasplot_3_27_24.png")
-    mlflow.log_artifact("kerasplot_3_27_24.png")
+    plt.savefig("plot_3_27_24.png")
+    mlflow.log_artifact("plot_3_27_24.png")

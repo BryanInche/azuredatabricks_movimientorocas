@@ -32,11 +32,12 @@ for columna in columnas:
 #4.2 #Montar el servicio de datalake, para el storage presentation en este ejemplo
 # dbutils.fs.mount(
 #  source = "abfss://presentation@datalakemlopsd4m.dfs.core.windows.net/",
-#  mount_point = "/mnt/datalakemlopsd4m/presentation/",
+#  mount_point = "/mnt/datalakemlopsd4m/raw/",
 #  extra_configs = configs)
 
 # 4.3 Ruta donde quieres guardar el archivo CSV en tu Azure Data Lake Storage
-ruta_guardado = "/mnt/datalakemlopsd4m/raw/marcobre/datosraw/datostotalmarcobre.csv" #cambiar el nombre del .csv al nombre deseado
+#ruta_guardado = "/mnt/datalakemlopsd4m/raw/marcobre/datosraw/datostotalmarcobre.csv" #cambiar el nombre del .csv al nombre deseado
+ruta_guardado = "/mnt/datalakemlopsd4m/raw/proyectopases_raw/fuentedatos_c4m/operacion_marcobre/datos_raw_marcobre_2024_04_08.csv" #nombre del .csv
 
 # 5. Guardar el DataFrame en formato CSV en la ruta especificada
 spark_datos.write.csv(ruta_guardado, header=True, mode="overwrite")

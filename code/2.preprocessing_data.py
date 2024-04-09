@@ -25,7 +25,7 @@ import numpy as np
 #%fs mounts
 
 # 1.Se Lee el archivo CSV del Microsoft DataStorage(RAW) en un DataFrame de Spark
-ruta_carpeta_csv = "/mnt/datalakemlopsd4m/raw/marcobre/datosraw/datostotalmarcobre.csv"
+ruta_carpeta_csv = "/mnt/datalakemlopsd4m/raw/proyectopases_raw/fuentedatos_c4m/operacion_marcobre/datos_raw_marcobre_2024_04_08.csv"
 df_spark = spark.read.option("header", "true").csv(ruta_carpeta_csv)
 
 # 2.Convertimos del DataFrame de Spark a un DataFrame Pandas
@@ -41,8 +41,8 @@ porcentaje_nulos = (valores_nulos_ordenados / len(datos)) * 100
 columnas_a_eliminar = porcentaje_nulos[porcentaje_nulos > 80].index
 datos = datos.drop(columnas_a_eliminar, axis=1)
 
-# 4. Tratamiento de variables 
-# 4.1 Eliminando columnas especificas que no aportan informacion
+#4. Tratamiento de variables 
+#4.1 Eliminando columnas especificas que no aportan informacion
 datos = datos.drop(['tipoubicacionsupervisor_camion','tipoubicacionsupervisor_pala', 'id_cargadescarga_pases','dumpreal','loadreal', 'rownum_global'], axis=1)
 
 # 4.2 Calcula la moda de 'has_block_pases' y Completa los valores nulos con la moda en la columna 'has_block_pases'
@@ -266,11 +266,12 @@ Limite_superior = round(Q3 + 1.5 * IQR)
 # Limitar los valores atípicos a los límites del bigote en la columna
 datos['numero_pases_carguio'] = datos['numero_pases_carguio'].clip(lower=Limite_inferior, upper=Limite_superior)
 
-# n.1 Crear la base de datos si no existe en el almacenamiento de processed
-#spark.sql("CREATE DATABASE IF NOT EXISTS processed_db LOCATION '/mnt/datalakemlopsd4m/processed/'")
+# # n.1 Crear la base de datos si no existe en el almacenamiento de processed (en la ruta donde se almacenaran los datos preprocesados)
+# spark.sql("CREATE DATABASE IF NOT EXISTS proyectopases_processed LOCATION '/mnt/datalakemlopsd4m/processed/proyectopases_processed/'")
 
 # n Antes de Guardar convertir el df-pandas Preprocesado a un DataFrame de Spark
 spark_datos = spark.createDataFrame(datos)
 
 # n.1 Guardamos los datos preprocesados en el Storage de Processed , en una Tabla DELTA
-spark_datos.write.format("delta").mode("overwrite").saveAsTable("processed_db.datmarcobre_prepro2_delta") #processed_db:Nombre de BD y datos_processed_delta:Nombre
+#spark_datos.write.format("delta").mode("overwrite").saveAsTable("processed_db.datmarcobre_prepro2_delta") #processed_db:Nombre de BD, datos_processed_delta:Nombre
+spark_datos.write.format("delta").mode("overwrite").saveAsTable("proyectopases_processed.datos_preprocessed_tabladelta_2024_04_08") #proyectopases_processed:Nombre_BD_creada
