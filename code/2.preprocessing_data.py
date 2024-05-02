@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+import io
 
 # a.Montar un servicio de datalake (podrias realizarlo primero en un jupyter notebook por separado)
 
@@ -24,12 +26,27 @@ import numpy as np
 #a.4 Verificar que contenedores estan montados en el azure datalake
 #%fs mounts
 
-# 1.Se Lee el archivo CSV del Microsoft DataStorage(RAW) en un DataFrame de Spark
-ruta_carpeta_csv = "/mnt/datalakemlopsd4m/raw/proyectopases_raw/fuentedatos_c4m/operacion_marcobre/datos_raw_marcobre_2024_04_08.csv"
-df_spark = spark.read.option("header", "true").csv(ruta_carpeta_csv)
+#Cargar los datos a analizar
+# 1. Obtener conection Azure DataLake,interfaz de Azure(Claves de acceso: Key1) (Debes comentar esta variable Si NO deja hacer COMMIT DEL 
+# CODIGO EN GIT,GITHUB)
+# connection_string = 'DefaultEndpointsProtocol=https;AccountName=datalakemlopsd4m;AccountKey=iWT8t74/#XlqcqoR03keDVtFZPzr0PB9zDffMPaLWMUBIAjUww8uYAVkc9xRkcBtvTmUHKBvd1sB3+ASt6mGgcQ==;EndpointSuffix=core.windows.net'
 
-# 2.Convertimos del DataFrame de Spark a un DataFrame Pandas
-datos = df_spark.toPandas()
+# 2. Conectar al Blob Storage de Azure
+blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+# 2.1 Identificamos el nombre del contenedor(container_name) y nombre del archivo(definir blob_name) en el Blob Storage
+container_name = "raw/proyectopases_raw/fuentedatos_c4m/operacion_marcobre/"
+
+blob_name = "datos_raw_marcobre.parquet"
+
+# 2.2 Obtener el blob_client
+blob_client = blob_service_client.get_blob_client(container=container_name , blob=blob_name )
+
+# 2.3 Leer el contenido del blob como un objeto de bytes
+blob_data = blob_client.download_blob().readall()
+
+# 2.4 Leer el archivo PARQUET en un DataFrame de Pandas desde el texto
+datos = pd.read_parquet(io.BytesIO(blob_data))
 
 # 3.Tratamiento de valores Nulos
 # 3.1 Supongamos que tienes un DataFrame llamado datos
