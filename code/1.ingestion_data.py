@@ -55,7 +55,7 @@ blob_service_client = BlobServiceClient.from_connection_string(connection_string
 # 4. Identificamos el nombre del contenedor(container_name) y nombre del archivo(definir blob_name) en el Blob Storage
 container_name = "raw/proyectopases_raw/fuentedatos_c4m/operacion_marcobre/"
 
-####### !IMPORTANTE!: CAMBIAR EL NOMBRE DEL CSV (PARA EL EQUIPO EN PARTICULAR)  ##########################################################
+####### 4.1 !IMPORTANTE!: CAMBIAR EL NOMBRE DEL CSV (PARA EL EQUIPO EN PARTICULAR)  ##########################################################
 blob_name = "datos_raw_marcobre.parquet"
 
 
@@ -68,10 +68,5 @@ if blob_client.exists():
     # Eliminar el archivo existente
     blob_client.delete_blob()
 
-
 # 7. Cargar el nuevo archivo Parquet al Blob Storage
 blob_client.upload_blob(parquet_data)
-
-
-# # x. Guardar el DataFrame en formato CSV en la ruta especificada
-# spark_datos.write.csv(ruta_guardado, header=True, mode="overwrite")

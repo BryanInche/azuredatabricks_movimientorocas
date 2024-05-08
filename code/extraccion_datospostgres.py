@@ -204,6 +204,7 @@ on a.id_crewdescarga = x.id
 left join (select * from public.ta_guardias) y
 on m.id_crew = y.id
 where a.tiem_elimin is null and a.tiem_llegada > CAST('2022-01-01' AS DATE) and b.factor is not null ) z --and g.id_turnos= 1 and h.id_turnos = 1 MODIFICAR FECHAS
+--and a.tiem_llegada > DATEADD(DAY, -1, CAST(GETDATE() AS DATETIME)) 
 where z.RowNum = 1
         '''
         # Ejecutar la consulta
