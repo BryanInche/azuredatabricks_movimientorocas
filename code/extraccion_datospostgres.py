@@ -3,10 +3,10 @@ import pandas as pd
 
 def consultar_postgres_y_obtener_df():
     # Información de la conexión a PostgreSQL
-    host = "controlsenesedb.postgres.database.azure.com"
+    host = "192.168.5.114"
     database = "ControlSenseDB"
     user = "postgres"
-    password = "Larc0mar"
+    password = "larc0mar"
 
     # Establecer la conexión a la base de datos
     try:
@@ -120,7 +120,7 @@ def consultar_postgres_y_obtener_df():
                                     ORDER BY ID DESC LIMIT 1)
         WHERE tcd1.tiem_elimin IS NULL
         AND tcd1.tiem_viajando IS NOT NULL
-        and tp.tiem_elimin IS NULL and tcd1.tiem_carga > CURRENT_TIMESTAMP - INTERVAL '1 year' ) m   --MODIFICAR FECHAS (1 mes atras, etc)
+        and tp.tiem_elimin IS NULL and tcd1.tiem_carga > '2023-06-27 00:00:00' and tcd1.tiem_carga < '2024-06-27 00:00:00') m   --MODIFICAR FECHAS (1 mes atras, --etc) CURRENT_TIMESTAMP - INTERVAL '1 year'
         on a.id_palas = m.id_palas
         left join public.ts_locacion n
         on m.id_locacion = n.id
@@ -183,7 +183,8 @@ def consultar_postgres_y_obtener_df():
         on a.id_crewdescarga = x.id
         left join (select * from public.ta_guardias) y
         on m.id_crew = y.id
-        where a.tiem_elimin is null and a.tiem_llegada > CURRENT_TIMESTAMP - INTERVAL '1 year'  and b.factor is not null ) z --and g.id_turnos= 1 and h.id_turnos = 1, --MODIFICAR FECHAS (1 mes atras, etc))
+        where a.tiem_elimin is null and a.tiem_llegada > '2023-06-27 00:00:00' and a.tiem_llegada < '2024-06-27 00:00:00'  and b.factor is not null ) z --and g.--id_turnos= 1 and h.id_turnos = 1, --MODIFICAR FECHAS (1 mes atras, etc))
+        -- CURRENT_TIMESTAMP - INTERVAL '1 year'
         -- year, month, etc
         where z.RowNum = 1
         '''
@@ -203,3 +204,7 @@ def consultar_postgres_y_obtener_df():
     except psycopg2.Error as e:
         print("Error al conectar a la base de datos PostgreSQL:", e)
         return None
+    
+datos = consultar_postgres_y_obtener_df()
+nombre_archivo = 'bd_hudbay_pases_1y.parquet'
+datos.to_parquet(nombre_archivo)

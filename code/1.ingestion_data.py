@@ -21,7 +21,6 @@ datos = consultar_postgres_y_obtener_df()
 # 2.Guardar el df en formato Parquet en la variable parquet_data
 parquet_data = datos.to_parquet(engine='pyarrow')
 
-
 #x. #Get client_id, tenant_id and client_secret from key vault
 #client_id = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-client-id')
 #tenant_id = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-tenant-id')
@@ -42,7 +41,7 @@ parquet_data = datos.to_parquet(engine='pyarrow')
 
 # 3. Obtener conection Azure DataLake,interfaz de Azure(Claves de acceso: Key1) (Debes comentar esta variable Si NO deja hacer COMMIT DEL 
 # CODIGO EN GIT,GITHUB)
-# connection_string = 'DefaultEndpointsProtocol=https;AccountName=datalakemlopsd4m;AccountKey=iWT8t74/#XlqcqoR03keDVtFZPzr0PB9zDffMPaLWMUBIAjUww8uYAVkc9xRkcBtvTmUHKBvd1sB3+ASt6mGgcQ==;EndpointSuffix=core.windows.net'
+connection_string = 'DefaultEndpointsProtocol=https;AccountName=datalakemlopsd4m;AccountKey=iWT8t74/#XlqcqoR03keDVtFZPzr0PB9zDffMPaLWMUBIAjUww8uYAVkc9xRkcBtvTmUHKBvd1sB3+ASt6mGgcQ==;EndpointSuffix=core.windows.net'
 
 # 3.1 Conectar al Blob Storage de Azure
 blob_service_client = BlobServiceClient.from_connection_string(connection_string)
@@ -53,10 +52,10 @@ blob_service_client = BlobServiceClient.from_connection_string(connection_string
 # ruta_guardado = "/mnt/datalakemlopsd4m/raw/proyectopases_raw/fuentedatos_c4m/operacion_marcobre/datos_raw_marcobre_2024_04_08.csv" #nombre del .csv
 
 # 4. Identificamos el nombre del contenedor(container_name) y nombre del archivo(definir blob_name) en el Blob Storage
-container_name = "raw/proyectopases_raw/fuentedatos_c4m/operacion_marcobre/"
+container_name = "raw/proyectopases_raw/fuentedatos_c4m/operacion_hudbay/"
 
 ####### 4.1 !IMPORTANTE!: CAMBIAR EL NOMBRE DEL CSV (PARA EL EQUIPO EN PARTICULAR)  ##########################################################
-blob_name = "datos_raw_marcobre.parquet"
+blob_name = "datos_raw_hudbay.parquet"
 
 
 # 5. Guardamos el archivo PARQUET al Blob Storage
