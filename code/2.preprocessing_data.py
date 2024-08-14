@@ -8,7 +8,7 @@ import io
 # a.1 Get client_id, tenant_id and client_secret from key vault
 # client_id = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-client-id')
 # tenant_id = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-tenant-id')
-# client_secret = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-client-secret')
+# client_secret = dbutils.secrets.get(scope = 'mlops-scope', key = 'mlops-app-client-secret')  # Cuando vence esta secret, actualizar en el Key Vlues de la APP DataBrinks en PORTAL DE AZURE(Active directory)
 
 # a.2 #Set Spark Config with App/ Client Id, Directory/ Tenant Id & Secret
 # configs = {"fs.azure.account.auth.type": "OAuth",
