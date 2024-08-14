@@ -74,7 +74,7 @@ datos = datos.drop(columnas_a_eliminar, axis=1)
 
 #4. Tratamiento de variables 
 #4.1 Eliminando columnas especificas que no aportan informacion
-datos = datos.drop(['tipoubicacionsupervisor_camion','tipoubicacionsupervisor_pala', 'id_cargadescarga_pases','dumpreal','loadreal', 'rownum_global','turno'], axis=1)
+datos = datos.drop(['tipoubicacionsupervisor_camion','tipoubicacionsupervisor_pala', 'id_cargadescarga_pases','dumpreal','loadreal', 'rownum'], axis=1) # 'turno'
 
 # 3.2 Calcula la moda de 'has_block_pases' y Completa los valores nulos con la moda en la columna 'has_block_pases'
 moda_has_block_pases = datos['has_block_pases'].mode()[0]
